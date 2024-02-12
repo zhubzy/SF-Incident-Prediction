@@ -1,5 +1,8 @@
 # Data Preprocessing for "San Francisco Incident Reports" Analysis
 
+
+Google Collab link (May not be able to view notebook on Github due to size): https://colab.research.google.com/github/zhubzy/SF-Incident-Prediction/blob/main/SF_Incident_Prediction.ipynb
+
 This README highlights the steps for preprocessing the "San Francisco Incident Reports (2018-present)" dataset for classifying incidents into "violent" and "non-violent" categories. The document will guide through data cleaning and transformation to prepare the dataset for analysis using feedforward neural networks.
 
 ## Data Cleaning
