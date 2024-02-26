@@ -56,7 +56,7 @@ We to fine-tune the features. We added additional features by one hot encoding t
 
 
 ## Conclusion
-In conclusion, with some feature engineering we are able to achieve a F1 score of 0.63 with our simple logistic regression model. Through this experiment, we found out that the broad location of crime (intersection) seems to be important contributing factor to whether a crime is violent or not as one hot encoding it increased our metrics marginally.
+In conclusion, with some feature engineering we are able to achieve a F1 score of 0.63 with our simple logistic regression model. Through this experiment, we found out that the broad location of crime (intersection) seems to be important contributing factor to whether a crime is violent or not as one hot encoding it increased our performance metrics (F1 score) marginally.
 
 Logistic regression assumes a linear relationship between the features and the log-odds of the target variable. If the relationship is non-linear, logistic regression may not perform well. For the next two models, we could try incorporating non-linear transformations of the features or using more complex models like decision trees or neural networks. Crime patterns can vary significantly over time and across different locations. If the model doesn't account for these temporal and spatial dynamics adequately, its predictive performance may suffer. In addition, we can consider incorporating time and location-specific features or using techniques like spatial or temporal clustering.
 
