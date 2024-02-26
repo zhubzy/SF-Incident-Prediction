@@ -35,7 +35,7 @@ This README highlights the steps for preprocessing the "San Francisco Incident R
 
 - After completing the data cleaning and transformation steps, we will split the dataset into training and testing sets to be used by our models.
 
-## Milestone 3: Model 1 - Logsitc Regression
+## Milestone 3: Model 1 - Logisitc Regression
 
 We first finished pre-processing by extracting the dattime in string to numerical categories (day, month, year, etc) then applying z-score standardization to all the appropriate columns before the data is ready for training.
 
