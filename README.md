@@ -61,3 +61,16 @@ In conclusion, with some feature engineering, we are able to achieve a F1 score 
 Logistic regression assumes a linear relationship between the features and the log-odds of the target variable. If the relationship is non-linear, logistic regression may not perform well. For the next two models, we could incorporate non-linear transformations of the features or use more complex models like decision trees or neural networks. Crime patterns can vary significantly over time and across different locations. If the model doesn't account for these temporal and spatial dynamics adequately, its predictive performance may suffer. In addition, we can consider incorporating time and location-specific features or using techniques like spatial or temporal clustering.
 
 For the next two models, we want to try SVM classifiers and neural networks, as they are well-suited for complex datasets with high-dimensional features. They can effectively handle datasets with a large number of features, which we would expect to have after more feature extraction and engineering just like we did this milestone with the intersection.
+
+
+
+## Milestone 4: Model 2 - Neural Network
+
+The data we choose is the pre-processed dataframe df_balanced. We didn't use the one-hot encoded version of dataset because it significantly increases the dimensionality of the dataset and the kernel cannot handle that huge feature space. We tried to run on different servers but it always shows "Kernel Dead". 
+
+The neural network we built has a relatively good performance on predicting whether the incident is violent or not. Aiming for better accuracy, we performad hyperparameter tuning to optimize the configuration settings, including the number of nodes, optimizer, learning rate, identifying the best combination that minimizes the loss function and improves the model's accuracy and generalization ability on unseen data. We didn't use k-fold cross validation because it cannot effectively improves the performance of the model while making the training process especially computationally expensive. Similarly, although feature expansion has the potential to uncover non-linear relationships and improve model performance, it also risks leading to overfitting, where the model becomes too tailored to the training data and performs poorly on unseen data. Furthermore, feature expansion can exponentially increase the dimensionality of the data, exacerbating issues with memory usage and computational efficiency.
+
+Where does your model ft in the ftting graph, how does it coripare to your frst model?
+
+
+Plan for the next model: 
