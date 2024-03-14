@@ -29,7 +29,7 @@ Effective predictive models have a profound impact on multiple facets of urban l
 The necessity for accuracy, adaptability, and efficiency in predictive modeling is paramount. Such models are instrumental in focusing efforts where they are most effective, adjusting to evolving crime trends, and optimizing resource use. In essence, the San Francisco Incident Prediction project is more than an exploration of crime prediction; it's a blueprint for enhancing public safety through the application of technology and analytics, contributing to the creation of safer and more resilient communities.
 
 
-## Method
+## Methods
 
 ### Data Exploration
 
@@ -108,7 +108,7 @@ The neural network we built has a relatively good performance on predicting whet
 
 
 
-## Result
+## Results
 
 ### Model 1 - Logistic Regression Results / Figures
 - Present the results of Model 1
@@ -162,7 +162,9 @@ Based on the graph for model loss，we have a promising model that is learning e
 - State the conclusions drawn from the analysis
 - Suggest possible future work or improvements
 
-### Model 1 (Logistic Regression): In conclusion, with some feature engineering, we are able to achieve a F1 score of 0.63 with our simple logistic regression model. Through this experiment, we found out that the broad location of crime (intersection) seems to be an important contributing factor to whether a crime is violent or not as one hot encoding it increased our performance metrics (F1 score) marginally.
+### Model 1 (Logistic Regression): 
+
+In conclusion, with some feature engineering, we are able to achieve a F1 score of 0.63 with our simple logistic regression model. Through this experiment, we found out that the broad location of crime (intersection) seems to be an important contributing factor to whether a crime is violent or not as one hot encoding it increased our performance metrics (F1 score) marginally.
 
 Logistic regression assumes a linear relationship between the features and the log-odds of the target variable. If the relationship is non-linear, logistic regression may not perform well. For the next two models, we could incorporate non-linear transformations of the features or use more complex models like decision trees or neural networks. Crime patterns can vary significantly over time and across different locations. If the model doesn't account for these temporal and spatial dynamics adequately, its predictive performance may suffer. In addition, we can consider incorporating time and location-specific features or using techniques like spatial or temporal clustering.
 
@@ -181,4 +183,15 @@ We plan to employ and experiment with several SVM (Support Vector Machine) model
 - Detail the roles and contributions of each group member
 - Mention any challenges faced and how they were overcome
 - Acknowledge any assistance or resources
+
+  # Collaboration
+
+| NAME       | TEAM ROLE                                  | WHAT HAVE WE DONE? |
+|------------|--------------------------------------------|--------------------|
+| Zach Zhong | Team Leader, Project Manager, Coder        | Organized meetings, planned milestones, and assigned tasks to the team. Built the baseline model for logistic regression; Wrote and finetuned model 3; Experimented with feature engineering to improve the accuracy of our models. Brainstormed topics together. |
+| Fangyu Zhu | Coder, Writer                              | Milestone 2 for Incident Location Data Exploration; Milestone 3 model 1- Logistic Regression collaborated working with Zach and Steven; Updates on writeup/readme, final review of the submissions based on milestone requirements; Final Submission Sections: Introduction; Methods/Results of Data Exploration; final submissions of group project (markdown transfer, formatting, etc.). Brainstormed topics together. |
+| Jerry Gong | *Roles and contributions not listed*       | Brainstormed topics together. |
+| Boyu Tian  | *Roles and contributions not listed*       | Brainstormed topics together. |
+| Steven Xie | *Roles and contributions not listed*       | Brainstormed topics together. |
+
   
