@@ -81,15 +81,25 @@ This README highlights the steps for preprocessing the "San Francisco Incident R
 - After completing the data cleaning and transformation steps, we will split the dataset into training and testing sets to be used by our models.
 
 
-### Model 1
-
+### Model 1 - Logisitic Regression
 - Describe the first model, its hypothesis, and algorithm
 - Mention the training process
 
-### Model 2
+We first finished pre-processing by extracting the dattime in string to numerical categories (day, month, year, etc) then applying z-score standardization to all the appropriate columns before the data is ready for training.
+
+We then begin to build and experiment with a simple logistic regression model.
+
+
+
+### Model 2 - Neural Network
 
 - Describe the second model, its hypothesis, and algorithm
 - Mention the training process
+
+The data we choose is the pre-processed dataframe df_balanced. We didn't use the one-hot encoded version of dataset because it significantly increases the dimensionality of the dataset and the kernel cannot handle that huge feature space. We tried to run on different servers but it always shows "Kernel Dead". 
+
+The neural network we built has a relatively good performance on predicting whether the incident is violent or not. Aiming for better accuracy, we performad hyperparameter tuning to optimize the configuration settings, including the number of nodes, optimizer, learning rate, identifying the best combination that minimizes the loss function and improves the model's accuracy and generalization ability on unseen data. We didn't use k-fold cross validation because it cannot effectively improves the performance of the model while making the training process especially computationally expensive. Similarly, although feature expansion has the potential to uncover non-linear relationships and improve model performance, it also risks leading to overfitting, where the model becomes too tailored to the training data and performs poorly on unseen data. Furthermore, feature expansion can exponentially increase the dimensionality of the data, exacerbating issues with memory usage and computational efficiency.
+
 
 ### Model 3
 
@@ -100,17 +110,36 @@ This README highlights the steps for preprocessing the "San Francisco Incident R
 
 ## Result
 
-### Model 1 Results / Figures
-
+### Model 1 - Logistic Regression Results / Figures
 - Present the results of Model 1
 - Discuss the findings
 - **Figures**: Include graphs or charts that support the results
+  
+Due to class imbalance, we achieved 89% accuracy with the prediction tasks but along with 0% precision and 0% recall. Upon inspecting the confusion matrix we observe that the model is predicting any incident to be "non-violent". In this case accuracy is not a good metric of performance due to the class imbalance and we want to figure out contributing factors for a crime to be violent. Further data processing is needed (resampling the dataset to be balanced).
+![](logistic_reg_model_unbalanced_train_set_confusion_matrix.png)
 
-### Model 2 Results / Figures
+
+In a second attempt, we changed our sample technique to account for this. On the new training set, we include an even 50-50 split of both classes from resampling, and we end up with an F1 score of 0.56 for these new tasks.
+![](logistic_reg_model_balanced_train_set_confusion_matrix.png)
+
+We then experimented with more feature extraction. We added additional features into our dataset by one hot encoding the intersection (so our model knows what community the crime is happening), and this raised the accuracy to 62%. Adding temporal features such as isWeekend, timeOfDay (morning, afternoon, evening) did not help improve the results.
+
+![](logistic_reg_model_balanced_with_intersection_confusion_matrix.png)
+
+![](logistic_reg_model_balanced_with_intersection_and_temporal_features_confusion_matrix.png)
+
+
+### Model 2 - Neural Network Results / Figures
 
 - Present the results of Model 2
 - Discuss the findings
 - **Figures**: Include graphs or charts that support the results
+
+Where does your model fit in the ftting graph, how does it coripare to your frst model?
+
+Based on the graph for model loss，we have a promising model that is learning effectively, evidenced by the consistent downward trend in training loss. The model displays a commendable ability to minimize error on the training set, indicating a good fit. Despite some fluctuations in validation loss, the general proximity of the training and validation losses suggest that the model has the potential for strong generalization with further tuning. This foundational training showcases a solid starting point for a robust model that, with further refinement, is poised to offer reliable predictions.
+![](neural_network_model_loss.png)
+
 
 ### Model 3 Results / Figures
 
@@ -133,7 +162,19 @@ This README highlights the steps for preprocessing the "San Francisco Incident R
 - State the conclusions drawn from the analysis
 - Suggest possible future work or improvements
 
+### Model 1 (Logistic Regression): In conclusion, with some feature engineering, we are able to achieve a F1 score of 0.63 with our simple logistic regression model. Through this experiment, we found out that the broad location of crime (intersection) seems to be an important contributing factor to whether a crime is violent or not as one hot encoding it increased our performance metrics (F1 score) marginally.
 
+Logistic regression assumes a linear relationship between the features and the log-odds of the target variable. If the relationship is non-linear, logistic regression may not perform well. For the next two models, we could incorporate non-linear transformations of the features or use more complex models like decision trees or neural networks. Crime patterns can vary significantly over time and across different locations. If the model doesn't account for these temporal and spatial dynamics adequately, its predictive performance may suffer. In addition, we can consider incorporating time and location-specific features or using techniques like spatial or temporal clustering.
+
+For the next two models, we want to try SVM classifiers and neural networks, as they are well-suited for complex datasets with high-dimensional features. They can effectively handle datasets with a large number of features, which we would expect to have after more feature extraction and engineering just like we did this milestone with the intersection.
+
+### Model 2 (Neural Network): 
+
+Overall, we achieved an F1 score of about 0.58 which is slightly lower than that of the logistic regression model. This is due to the limit of memory when we add dimensions to our data. But compared to using the same feature space, we do see an increase in results compared to our logistic regression model due to the ability of a neural network to capture non-linear relationships.
+
+We plan to employ and experiment with several SVM (Support Vector Machine) models in our exploration of crime data prediction. Firstly, SVMs are renowned for their effectiveness in handling high-dimensional data, which is particularly relevant given the extensive feature engineering we've undertaken, including location and temporal aspects. Their versatility in kernel choice allows us to experiment with various functions to model non-linear relationships that a simple logistic regression or even a neural network might struggle with. Moreover, SVM's ability to provide a robust decision boundary, thanks to its margin optimization approach, makes it ideal for complex prediction tasks like distinguishing between violent and non-violent crimes. This model is particularly resistant to overfitting, especially in high-dimensional spaces, due to its regularization mechanism. By choosing SVM as our next modeling approach, we aim to leverage its strengths in dealing with complex patterns and its comparative advantage over our previous models, thereby enriching our analysis and enhancing our predictive capabilities in the domain of crime prediction.
+
+### Model 3 (SVM Classifier):
 
 ## Collaboration
 
@@ -141,50 +182,3 @@ This README highlights the steps for preprocessing the "San Francisco Incident R
 - Mention any challenges faced and how they were overcome
 - Acknowledge any assistance or resources
   
-
-
-## Milestone 3: Model 1 - Logisitc Regression
-
-We first finished pre-processing by extracting the dattime in string to numerical categories (day, month, year, etc) then applying z-score standardization to all the appropriate columns before the data is ready for training.
-
-We then begin to build and experiment with a simple logistic regression model.
-
-Due to class imbalance, we achieved 89% accuracy with the prediction tasks but along with 0% precision and 0% recall. Upon inspecting the confusion matrix we observe that the model is predicting any incident to be "non-violent". In this case accuracy is not a good metric of performance due to the class imbalance and we want to figure out contributing factors for a crime to be violent. Further data processing is needed (resampling the dataset to be balanced).
-![](logistic_reg_model_unbalanced_train_set_confusion_matrix.png)
-
-
-In a second attempt, we changed our sample technique to account for this. On the new training set, we include an even 50-50 split of both classes from resampling, and we end up with an F1 score of 0.56 for these new tasks.
-![](logistic_reg_model_balanced_train_set_confusion_matrix.png)
-
-We then experimented with more feature extraction. We added additional features into our dataset by one hot encoding the intersection (so our model knows what community the crime is happening), and this raised the accuracy to 62%. Adding temporal features such as isWeekend, timeOfDay (morning, afternoon, evening) did not help improve the results.
-
-![](logistic_reg_model_balanced_with_intersection_confusion_matrix.png)
-
-![](logistic_reg_model_balanced_with_intersection_and_temporal_features_confusion_matrix.png)
-
-
-## Conclusion
-In conclusion, with some feature engineering, we are able to achieve a F1 score of 0.63 with our simple logistic regression model. Through this experiment, we found out that the broad location of crime (intersection) seems to be an important contributing factor to whether a crime is violent or not as one hot encoding it increased our performance metrics (F1 score) marginally.
-
-Logistic regression assumes a linear relationship between the features and the log-odds of the target variable. If the relationship is non-linear, logistic regression may not perform well. For the next two models, we could incorporate non-linear transformations of the features or use more complex models like decision trees or neural networks. Crime patterns can vary significantly over time and across different locations. If the model doesn't account for these temporal and spatial dynamics adequately, its predictive performance may suffer. In addition, we can consider incorporating time and location-specific features or using techniques like spatial or temporal clustering.
-
-For the next two models, we want to try SVM classifiers and neural networks, as they are well-suited for complex datasets with high-dimensional features. They can effectively handle datasets with a large number of features, which we would expect to have after more feature extraction and engineering just like we did this milestone with the intersection.
-
-
-
-## Milestone 4: Model 2 - Neural Network
-
-The data we choose is the pre-processed dataframe df_balanced. We didn't use the one-hot encoded version of dataset because it significantly increases the dimensionality of the dataset and the kernel cannot handle that huge feature space. We tried to run on different servers but it always shows "Kernel Dead". 
-
-The neural network we built has a relatively good performance on predicting whether the incident is violent or not. Aiming for better accuracy, we performad hyperparameter tuning to optimize the configuration settings, including the number of nodes, optimizer, learning rate, identifying the best combination that minimizes the loss function and improves the model's accuracy and generalization ability on unseen data. We didn't use k-fold cross validation because it cannot effectively improves the performance of the model while making the training process especially computationally expensive. Similarly, although feature expansion has the potential to uncover non-linear relationships and improve model performance, it also risks leading to overfitting, where the model becomes too tailored to the training data and performs poorly on unseen data. Furthermore, feature expansion can exponentially increase the dimensionality of the data, exacerbating issues with memory usage and computational efficiency.
-
-Where does your model fit in the ftting graph, how does it coripare to your frst model?
-
-Based on the graph for model loss，we have a promising model that is learning effectively, evidenced by the consistent downward trend in training loss. The model displays a commendable ability to minimize error on the training set, indicating a good fit. Despite some fluctuations in validation loss, the general proximity of the training and validation losses suggest that the model has the potential for strong generalization with further tuning. This foundational training showcases a solid starting point for a robust model that, with further refinement, is poised to offer reliable predictions.
-![](neural_network_model_loss.png)
-
-## Conclusion
-
-Overall, we achieved an F1 score of about 0.58 which is slightly lower than that of the logistic regression model. This is due to the limit of memory when we add dimensions to our data. But compared to using the same feature space, we do see an increase in results compared to our logistic regression model due to the ability of a neural network to capture non-linear relationships.
-
-We plan to employ and experiment with several SVM (Support Vector Machine) models in our exploration of crime data prediction. Firstly, SVMs are renowned for their effectiveness in handling high-dimensional data, which is particularly relevant given the extensive feature engineering we've undertaken, including location and temporal aspects. Their versatility in kernel choice allows us to experiment with various functions to model non-linear relationships that a simple logistic regression or even a neural network might struggle with. Moreover, SVM's ability to provide a robust decision boundary, thanks to its margin optimization approach, makes it ideal for complex prediction tasks like distinguishing between violent and non-violent crimes. This model is particularly resistant to overfitting, especially in high-dimensional spaces, due to its regularization mechanism. By choosing SVM as our next modeling approach, we aim to leverage its strengths in dealing with complex patterns and its comparative advantage over our previous models, thereby enriching our analysis and enhancing our predictive capabilities in the domain of crime prediction.
