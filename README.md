@@ -81,7 +81,7 @@ This README highlights the steps for preprocessing the "San Francisco Incident R
 - After completing the data cleaning and transformation steps, we will split the dataset into training and testing sets to be used by our models.
 
 
-### Model 1 - Logisitic Regression
+### Model 1 - Logistic Regression
 - Describe the first model, its hypothesis, and algorithm
 - Mention the training process
 
