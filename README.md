@@ -33,15 +33,26 @@ The necessity for accuracy, adaptability, and efficiency in predictive modeling 
 
 ### Data Exploration
 
-- Explain the initial dataset
-- Discuss the characteristics of the data
-- Include any insights gleaned from the exploration
-- **Results / Figures**: Insert relevant figures with legends
+#### Incident Datetime Data Exploration
+We employed a temporal analysis of the dataset by converting the 'Incident Datetime' column to the datetime data type and setting it as the DataFrame index. We performed a resampling to aggregate incident data on an annual basis, visualizing the trend via a bar graph. We also extracted the hour of the incident to investigate the distribution throughout a day and analyzed the frequency of incidents by each day of the week using a bar graph representation. The temporal analysis indicated a significant decrease in the number of incidents in recent years, with an acute drop in 2020 possibly due to the COVID-19 pandemic, and a continued decrease into 2023. The peak of incident rates occurred around noon and the afternoon, while the hours from 1 AM to 7 AM generally saw the fewest incidents. The day with the most incidents was Friday, with Sunday having the least, although the distribution across the week was relatively even.
 
-### Preprocessing
-- Detail the steps taken to preprocess the data
-- Mention any data cleaning or transformation performed
-- **Steps / Sample output of your final dataframe**: Show a snapshot of the data after preprocessing
+![](Incident_Datetime_Data_Exploration.png)
+*Figure 2.1.1: This relatively more clear bar graph mainly represents the frequency of incidents happening in San Francisco by Hours of Day.*
+
+#### Incident Location Data Exploration
+Spatial distribution of incidents was analyzed using Plotly Express for interactive visualizations. A Scatter Geo Plot was generated for the first 10,000 incidents post-cleaning, categorized by 'Incident Category' and enhanced with hover details. Additionally, a histogram displayed the frequency of incident types across various San Francisco neighborhoods, grouped by 'Incident Category'. The Scatter Geo Plot centered on San Francisco revealed spatial patterns in incident distribution, with diverse incident categories indicated by different colors. The histogram analysis of neighborhoods showed that 'Financial District/South Beach' had the highest incident counts, with 'Larceny Theft' being the predominant category across most neighborhoods. These visualizations served as tools for understanding the spatial and categorical patterns of crime in San Francisco.
+
+![](Incident_Location_Data_Exploration.png)
+*Figure 2.1.2: This chart displays the count of incident types across different analysis neighborhoods in San Francisco, grouped by incident category. It is designed to offer a comparative view of incident frequencies in neighborhoods, with the neighborhoods ordered by the total number of incidents descending.*
+
+#### Incident Category Data Exploration
+For the categorical analysis, incident types were quantified, and due to a large number of categories, we divided them into three equal parts for visualization in histograms. We also calculated the proportional distribution of incident categories, consolidating those with less than 1% frequency into a combined category for a pie chart presentation. The categorical analysis revealed 'Larceny Theft' as the most frequent type of crime, dominating the incident categories in San Francisco. The pie chart demonstrated that 'Larceny Theft' accounted for approximately 30% of all incidents, and categories aside from 'Larceny Theft' had relatively similar proportions. Categories with individual proportions under 1% cumulatively formed the second-largest segment with 7.2%.
+
+![](Incident_Category_Data_Exploration.png)
+*Figure 2.1.3: This is a PIE chart showing the proportions of all the incident categories. In order to make the graph look nicer, we combined all the categories with proportion below 1% together to be a new category called "Other categories below 1%".*
+
+
+### Preprocessing (Steps / Sample output of our final dataframe)
 
 #### Data Preprocessing for "San Francisco Incident Reports" Analysis
 
@@ -124,7 +135,7 @@ Due to class imbalance, we achieved 89% accuracy with the prediction tasks but a
 In a second attempt, we changed our sample technique to account for this. On the new training set, we include an even 50-50 split of both classes from resampling, and we end up with an F1 score of 0.56 for these new tasks.
 ![](logistic_reg_model_balanced_train_set_confusion_matrix.png)
 
-We then experimented with more feature extraction. We added additional features into our dataset by one hot encoding the intersection (so our model knows what community the crime is happening), and this raised the accuracy to 62%. Adding temporal features such as isWeekend, timeOfDay (morning, afternoon, evening) did not help improve the results.
+We then experimented with more feature extraction. We added additional features into our dataset by one hot encoding the intersection (so our model knows what community the crime is happening to), and this raised the accuracy to 62%. Adding temporal features such as isWeekend, timeOfDay (morning, afternoon, evening) did not help improve the results.
 
 ![](logistic_reg_model_balanced_with_intersection_confusion_matrix.png)
 *Figure X: Description of what the figure represents.*
