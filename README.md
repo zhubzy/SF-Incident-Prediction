@@ -117,7 +117,7 @@ The neural network we built has a relatively good performance on predicting whet
   
 Due to class imbalance, we achieved 89% accuracy with the prediction tasks but along with 0% precision and 0% recall. Upon inspecting the confusion matrix we observe that the model is predicting any incident to be "non-violent". In this case accuracy is not a good metric of performance due to the class imbalance and we want to figure out contributing factors for a crime to be violent. Further data processing is needed (resampling the dataset to be balanced).
 ![](logistic_reg_model_unbalanced_train_set_confusion_matrix.png)
-
+*Figure X: Description of what the figure represents.*
 
 In a second attempt, we changed our sample technique to account for this. On the new training set, we include an even 50-50 split of both classes from resampling, and we end up with an F1 score of 0.56 for these new tasks.
 ![](logistic_reg_model_balanced_train_set_confusion_matrix.png)
@@ -125,8 +125,9 @@ In a second attempt, we changed our sample technique to account for this. On the
 We then experimented with more feature extraction. We added additional features into our dataset by one hot encoding the intersection (so our model knows what community the crime is happening), and this raised the accuracy to 62%. Adding temporal features such as isWeekend, timeOfDay (morning, afternoon, evening) did not help improve the results.
 
 ![](logistic_reg_model_balanced_with_intersection_confusion_matrix.png)
-
+*Figure X: Description of what the figure represents.*
 ![](logistic_reg_model_balanced_with_intersection_and_temporal_features_confusion_matrix.png)
+*Figure X: Description of what the figure represents.*
 
 
 ### Model 2 - Neural Network Results / Figures
@@ -138,8 +139,9 @@ We then experimented with more feature extraction. We added additional features 
 Where does your model fit in the ftting graph, how does it coripare to your frst model?
 
 Based on the graph for model loss，we have a promising model that is learning effectively, evidenced by the consistent downward trend in training loss. The model displays a commendable ability to minimize error on the training set, indicating a good fit. Despite some fluctuations in validation loss, the general proximity of the training and validation losses suggest that the model has the potential for strong generalization with further tuning. This foundational training showcases a solid starting point for a robust model that, with further refinement, is poised to offer reliable predictions.
-![](neural_network_model_loss.png)
 
+![](neural_network_model_loss.png)
+*Figure X: Description of what the figure represents.*
 
 ### Model 3 Results / Figures
 
