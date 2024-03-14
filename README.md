@@ -26,48 +26,122 @@ Effective predictive models have a profound impact on multiple facets of urban l
 
 ### Importance of Robust Predictive Models
 
-The necessity for accuracy, adaptability, and efficiency in predictive modeling is paramount. Such models are instrumental in focusing efforts where they are most effective, adjusting to evolving crime trends, and optimizing resource use.
-
-In essence, the San Francisco Incident Prediction project is more than an exploration of crime prediction; it's a blueprint for enhancing public safety through the application of technology and analytics, contributing to the creation of safer and more resilient communities.
+The necessity for accuracy, adaptability, and efficiency in predictive modeling is paramount. Such models are instrumental in focusing efforts where they are most effective, adjusting to evolving crime trends, and optimizing resource use. In essence, the San Francisco Incident Prediction project is more than an exploration of crime prediction; it's a blueprint for enhancing public safety through the application of technology and analytics, contributing to the creation of safer and more resilient communities.
 
 
+## Method
 
-# Data Preprocessing for "San Francisco Incident Reports" Analysis
+### Data Exploration
+
+- Explain the initial dataset
+- Discuss the characteristics of the data
+- Include any insights gleaned from the exploration
+- **Results / Figures**: Insert relevant figures with legends
+
+### Preprocessing
+- Detail the steps taken to preprocess the data
+- Mention any data cleaning or transformation performed
+- **Steps / Sample output of your final dataframe**: Show a snapshot of the data after preprocessing
+
+#### Data Preprocessing for "San Francisco Incident Reports" Analysis
 
 Google Collab link (May not be able to view notebook on Github due to size): https://colab.research.google.com/github/zhubzy/SF-Incident-Prediction/blob/main/SF_Incident_Prediction.ipynb
 
 This README highlights the steps for preprocessing the "San Francisco Incident Reports (2018-present)" dataset for classifying incidents into "violent" and "non-violent" categories based on location and time information. The document will guide through data cleaning and transformation to prepare the dataset for analysis using feedforward neural networks.
 
-## Data Cleaning
+#### Data Cleaning
 
-### 1. Handle Missing Values
+##### 1. Handle Missing Values
 
 - **Numerical columns**: Identify and fill missing values in columns like `longitude` and `latitude`. we will use the mean or median of the column for filling in the missing values.
 - **Categorical columns**: For columns with categorical data such as `Intersection`, we will fill missing entries with the most frequent value or a placeholder such as 'Unknown'.
 
-### 2. Remove Outliers
+##### 2. Remove Outliers
 
 - Use statistical methods to identify and remove outliers from numerical columns like `longitude` and `latitude`. We will use the Interquartile Range (IQR) method for this purpose.
 
-## Data Transformation
+#### Data Transformation
 
-### 1. Normalization
+##### 1. Normalization
 
 - We will normalize numerical features to ensure they're on the same scale. This is crucial for features like `longitude` and `latitude`. We will use the z-score normalization to achieve this.
 
-### 2. Extract Target Variable
+##### 2. Extract Target Variable
 
 - We will manually classify incidents into "violent" and "non-violent" categories using the `Incident Category` column. For example, we may classify "Larceny Theft" as a "non-violent" act and "Assault" as a "violent" act in the column.
 
-### 3. Categorical Feature Encoding
+##### 3. Categorical Feature Encoding
 
 - We can use one-hot encoding technique for converting categorical data into a binary vector, such as converting "non-violent" to `0` and "violent" to `1`.
 
-## Splitting
+#### Splitting
 
-### 1. Split the data
+##### 1. Split the data
 
 - After completing the data cleaning and transformation steps, we will split the dataset into training and testing sets to be used by our models.
+
+
+### Model 1
+
+- Describe the first model, its hypothesis, and algorithm
+- Mention the training process
+
+### Model 2
+
+- Describe the second model, its hypothesis, and algorithm
+- Mention the training process
+
+### Model 3
+
+- Describe the third model, its hypothesis, and algorithm
+- Mention the training process
+
+
+
+## Result
+
+### Model 1 Results / Figures
+
+- Present the results of Model 1
+- Discuss the findings
+- **Figures**: Include graphs or charts that support the results
+
+### Model 2 Results / Figures
+
+- Present the results of Model 2
+- Discuss the findings
+- **Figures**: Include graphs or charts that support the results
+
+### Model 3 Results / Figures
+
+- Present the results of Model 3
+- Discuss the findings
+- **Figures**: Include graphs or charts that support the results
+
+
+
+## Discussion
+
+- Provide a comprehensive analysis of the results
+- Compare the models and discuss the merits and demerits of each
+
+
+
+## Conclusion
+
+- Summarize the main findings
+- State the conclusions drawn from the analysis
+- Suggest possible future work or improvements
+
+
+
+## Collaboration
+
+- Detail the roles and contributions of each group member
+- Mention any challenges faced and how they were overcome
+- Acknowledge any assistance or resources
+  
+
 
 ## Milestone 3: Model 1 - Logisitc Regression
 
