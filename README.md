@@ -119,7 +119,7 @@ Due to class imbalance, we achieved 89% accuracy with the prediction tasks but a
 ![](logistic_reg_model_unbalanced_train_set_confusion_matrix.png)
 *Figure X: Description of what the figure represents.*
 
-<img src="SF-Incident-Prediction/logistic_reg_model_unbalanced_train_set_confusion_matrix.png" alt="Description of the image" width="300" height="200">
+<img src="logistic_reg_model_unbalanced_train_set_confusion_matrix.png" alt="Description of the image" width="300" height="200">
 
 
 In a second attempt, we changed our sample technique to account for this. On the new training set, we include an even 50-50 split of both classes from resampling, and we end up with an F1 score of 0.56 for these new tasks.
