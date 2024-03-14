@@ -85,7 +85,7 @@ This README highlights the steps for preprocessing the "San Francisco Incident R
 - Describe the first model, its hypothesis, and algorithm
 - Mention the training process
 
-We first finished pre-processing by extracting the dattime in string to numerical categories (day, month, year, etc) then applying z-score standardization to all the appropriate columns before the data is ready for training.
+We first finished pre-processing by extracting the datetime in string to numerical categories (day, month, year, etc) then applying z-score standardization to all the appropriate columns before the data is ready for training.
 
 We then begin to build and experiment with a simple logistic regression model.
 
@@ -96,12 +96,12 @@ We then begin to build and experiment with a simple logistic regression model.
 - Describe the second model, its hypothesis, and algorithm
 - Mention the training process
 
-The data we choose is the pre-processed dataframe df_balanced. We didn't use the one-hot encoded version of dataset because it significantly increases the dimensionality of the dataset and the kernel cannot handle that huge feature space. We tried to run on different servers but it always shows "Kernel Dead". 
+The data we choose is the pre-processed data frame df_balanced. We didn't use the one-hot encoded version of the dataset because it significantly increases the dimensionality of the dataset and the kernel cannot handle that huge feature space. We tried to run on different servers but it always shows "Kernel Dead". 
 
 The neural network we built has a relatively good performance on predicting whether the incident is violent or not. Aiming for better accuracy, we performad hyperparameter tuning to optimize the configuration settings, including the number of nodes, optimizer, learning rate, identifying the best combination that minimizes the loss function and improves the model's accuracy and generalization ability on unseen data. We didn't use k-fold cross validation because it cannot effectively improves the performance of the model while making the training process especially computationally expensive. Similarly, although feature expansion has the potential to uncover non-linear relationships and improve model performance, it also risks leading to overfitting, where the model becomes too tailored to the training data and performs poorly on unseen data. Furthermore, feature expansion can exponentially increase the dimensionality of the data, exacerbating issues with memory usage and computational efficiency.
 
 
-### Model 3
+### Model 3 - SVM Classifier
 
 - Describe the third model, its hypothesis, and algorithm
 - Mention the training process
@@ -120,7 +120,6 @@ Due to class imbalance, we achieved 89% accuracy with the prediction tasks but a
 *Figure X: Description of what the figure represents.*
 
 <img src="logistic_reg_model_unbalanced_train_set_confusion_matrix.png" alt="Description of the image" width="300" height="200">
-
 
 In a second attempt, we changed our sample technique to account for this. On the new training set, we include an even 50-50 split of both classes from resampling, and we end up with an F1 score of 0.56 for these new tasks.
 ![](logistic_reg_model_balanced_train_set_confusion_matrix.png)
@@ -146,7 +145,9 @@ Based on the graph for model loss，we have a promising model that is learning e
 ![](neural_network_model_loss.png)
 *Figure X: Description of what the figure represents.*
 
-### Model 3 Results / Figures
+
+
+### Model 3 - SVM Classifier Results / Figures
 
 - Present the results of Model 3
 - Discuss the findings
