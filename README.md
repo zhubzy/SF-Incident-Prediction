@@ -116,6 +116,10 @@ def encoding_imporved(df_in):
 
 - After completing the data cleaning and transformation steps, we will split the dataset into training and testing sets to be used by our models.
 
+![](df_sample.png)
+_Figure 2.2.1: Sample final cleaned dataframe with all standardization, encoding, filtering._
+
+
 ### Model 1 - Logistic Regression
 
 - Describe the first model, its hypothesis, and algorithm
