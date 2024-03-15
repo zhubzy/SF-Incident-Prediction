@@ -4,7 +4,7 @@
 
 Law enforcement agencies and emergency responders are often tasked with assessing the potential severity and violence level of reported incidents. Having an accurate assessment of whether an incident is likely to involve violence can help guide the appropriate response, allocation of resources, and safety precautions for personnel responding to the scene. However, making this determination based solely on limited initial report details can be challenging and prone to human bias or error.
 
-Our final project on San Francisco Incident Prediction aims to predict the nature of crime incidents (violent or not) based on time and location in San Francisco. It showcases our deep interests and understandings of the complexities involved in crime prediction within a city and the potential benefits of addressing this challenge.
+Our final project on San Francisco Incident Prediction aims to predict the nature of crime incidents (violent or not) based on time and location in San Francisco. It showcases our deep interests and understanding of the complexities involved in crime prediction within a city and the potential benefits of addressing this challenge.
 
 The San Francisco Incident Prediction project represents a pivotal application of data science to enhance urban safety and improve policing strategies. By predicting the nature of crime incidents using temporal and spatial data, this initiative stands at the forefront of a proactive approach to public safety, with the aim of being both innovative and impactful, that also explains why we chose this as our final project topic.
 
@@ -39,7 +39,7 @@ The necessity for accuracy, adaptability, and efficiency in predictive modeling 
 
 #### Incident Datetime Data Exploration
 
-We employed a temporal analysis of the dataset by converting the 'Incident Datetime' column to the datetime data type and setting it as the DataFrame index. We performed a resampling to aggregate incident data on an annual basis, visualizing the trend via a bar graph. We also extracted the hour of the incident to investigate the distribution throughout a day and analyzed the frequency of incidents by each day of the week using a bar graph representation. The temporal analysis indicated a significant decrease in the number of incidents in recent years, with an acute drop in 2020 possibly due to the COVID-19 pandemic, and a continued decrease into 2023. The peak of incident rates occurred around noon and the afternoon, while the hours from 1 AM to 7 AM generally saw the fewest incidents. The day with the most incidents was Friday, with Sunday having the least, although the distribution across the week was relatively even.
+We employed a temporal analysis of the dataset by converting the 'Incident Datetime' column to the datetime data type and setting it as the DataFrame index. We performed a resampling to aggregate incident data on an annual basis, visualizing the trend via a bar graph. We also extracted the hour of the incident to investigate the distribution throughout the day and analyzed the frequency of incidents by each day of the week using a bar graph representation. The temporal analysis indicated a significant decrease in the number of incidents in recent years, with an acute drop in 2020 possibly due to the COVID-19 pandemic, and a continued decrease into 2023. The peak of incident rates occurred around noon and the afternoon, while the hours from 1 AM to 7 AM generally saw the fewest incidents. The day with the most incidents was Friday, with Sunday having the least, although the distribution across the week was relatively even.
 
 ![](Incident_Datetime_Data_Exploration.png)
 _Figure 2.1.1: This relatively more clear bar graph mainly represents the frequency of incidents happening in San Francisco by Hours of Day._
@@ -56,13 +56,11 @@ _Figure 2.1.2: This chart displays the count of incident types across different 
 For the categorical analysis, incident types were quantified, and due to a large number of categories, we divided them into three equal parts for visualization in histograms. We also calculated the proportional distribution of incident categories, consolidating those with less than 1% frequency into a combined category for a pie chart presentation. The categorical analysis revealed 'Larceny Theft' as the most frequent type of crime, dominating the incident categories in San Francisco. The pie chart demonstrated that 'Larceny Theft' accounted for approximately 30% of all incidents, and categories aside from 'Larceny Theft' had relatively similar proportions. Categories with individual proportions under 1% cumulatively formed the second-largest segment with 7.2%.
 
 ![](Incident_Category_Data_Exploration.png)
-_Figure 2.1.3: This is a PIE chart showing the proportions of all the incident categories. In order to make the graph look nicer, we combined all the categories with proportion below 1% together to be a new category called "Other categories below 1%"._
+_Figure 2.1.3: This is a Pie chart showing the proportions of all the incident categories. In order to make the graph look nicer, we combined all the categories with proportion below 1% together to be a new category called "Other categories below 1%"._
 
 ### Preprocessing (Steps / Sample output of our final dataframe)
 
 #### Data Preprocessing for "San Francisco Incident Reports" Analysis
-
-Google Collab link (May not be able to view notebook on Github due to size): https://colab.research.google.com/github/zhubzy/SF-Incident-Prediction/blob/main/SF_Incident_Prediction.ipynb
 
 This README highlights the steps for preprocessing the "San Francisco Incident Reports (2018-present)" dataset for classifying incidents into "violent" and "non-violent" categories based on location and time information. The document will guide through data cleaning and transformation to prepare the dataset for analysis using feedforward neural networks.
 
