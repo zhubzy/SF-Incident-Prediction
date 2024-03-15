@@ -117,17 +117,13 @@ def encoding_imporved(df_in):
 ![](df_sample.png)
 _Figure 2.2.1: Sample final cleaned dataframe with all standardization, encoding, filtering._
 
-
 ### Model 1 - Logistic Regression
-
-- Describe the first model, its hypothesis, and algorithm
-- Mention the training process
 
 We first finished pre-processing by extracting the datetime in string to numerical categories (day, month, year, etc) then applying z-score standardization to all the appropriate columns before the data is ready for training.
 
 We then begin to build and experiment with a simple logistic regression model.
 
-``` python
+```python
 def LogisticRegressionTest(X_train, Y_train, X_test, Y_test, model_name):
     # Initialize the Logistic Regression model
     log_reg = LogisticRegression(max_iter=1000)  # Adjust max_iter if needed
@@ -177,13 +173,10 @@ def LogisticRegressionTest(X_train, Y_train, X_test, Y_test, model_name):
     print(f'Confusion matrix graph saved as: {filename}')
     plt.close()
 ```
+
 The model is trained with max iteration of 1000 with the training loss and testing loss evaluated and confusion matrix plotted for evaluation.
 
-
 ### Model 2 - Neural Network
-
-- Describe the second model, its hypothesis, and algorithm
-- Mention the training process
 
 For the second model, we chose to model the San Francisco crime incidents via deep neural networks. We opted for the pre-processed dataset named df_balanced, characterized by its equal distribution of positive and negative outcomes for the 'violent' attribute we aim to predict. Initially, we considered utilizing a one-hot encoded version of this dataset, a technique previously noted for enhancing model efficacy in logistic regression applications. However, this approach was ultimately discarded due to the substantial increase in dataset dimensionality it would cause, which our computational resources found challenging to manage. Attempts to process the data across various servers consistently resulted in "Kernel Dead" errors, signaling the impracticality of this method given our infrastructure. Despite not employing the potentially optimal data structure, we are confident in our model's ability to achieve respectable performance, demonstrating both strong generalization and robust explanatory power. For the implementation of our model, we initialized two neural networks with the same amount of layers and nodes per layer, but with different activation functions. One used tanh, while the other used relu. Then, fixing the number of layers, we used parameter tuning to find the optimal number of nodes per layer and activation functions over a selected subset. Finally, we used the result of parameter tuning to construct a neural network that’s expected to have a better performance than our first two neural networks.
 
@@ -191,42 +184,40 @@ For the second model, we chose to model the San Francisco crime incidents via de
 
 Our hypothesis is that the SVM classifiers would achieve an equal or better results after fintuning.
 
-
 Similar to the neural network, running SVM with over 1000 columns takes way too long to converge with the increased dimensionality of the intersection features, which is specific to a particular street where the incident occurs. Due to limiation of our machine, we decided to try a different approach of feature extraction after finetuning to find the best hyperparameters.
 
-The model is trained once on the balanced dataset with it hyperamerts (C =0.1, 1, 10, 100) as well as kernel (lienar, sgf, poly with various degrees) with the same features extracted previously. Since the training metrics and testing metrics are consistent, it indicates that  the model is simply underfitting, and we wouldn't be any breakthrough in the accuracy without more data/features.
+The model is trained once on the balanced dataset with it hyperamerts (C =0.1, 1, 10, 100) as well as kernel (lienar, sgf, poly with various degrees) with the same features extracted previously. Since the training metrics and testing metrics are consistent, it indicates that the model is simply underfitting, and we wouldn't be any breakthrough in the accuracy without more data/features.
 
-``` python
+```python
 def train_svc_tuned(x_train, y_train, x_test, y_test):
     parameter_grid = {
-        'kernel': ['poly', 'linear','rbf'],  
-        'C': [0.1, 1, 10],  
-        'degree': [2, 3, 4], 
-        'gamma': ['scale', 'auto'],  
-        'coef0': [0.0, 0.5, 1.0] 
+        'kernel': ['poly', 'linear','rbf'],
+        'C': [0.1, 1, 10],
+        'degree': [2, 3, 4],
+        'gamma': ['scale', 'auto'],
+        'coef0': [0.0, 0.5, 1.0]
     }
-    
+
     svm = SVC()
     grid_search = GridSearchCV(svm, parameter_grid, scoring='f1', cv=5)
     grid_search.fit(x_train, y_train)
-    
+
     print("Best parameters found: ", grid_search.best_params_)
     best_model = grid_search.best_estimator_
-    
+
     y_hat = best_model.predict(x_test)
     f1_test = f1_score(y_test, y_hat, average='binary')
     print(f'F1 score is {f1_test}')
     print(classification_report(y_test, y_hat))
-    
+
     cm = confusion_matrix(y_test, y_hat)
     plt.figure(figsize=(10, 7))
     sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
-    
+
     return best_model
 ```
 
 After additional feature extraction with community and the improvements of encoding temporal features, the model is able to perform slightly better. We then fintuned the regularization constant with rbf kernel to get our best model for this approach.
-
 
 ## Results
 
@@ -253,7 +244,7 @@ For the next two models, we want to try SVM classifiers and neural networks, as 
 
 ### Model 2 - Neural Network Results / Figures
 
-The neural network we built has a relatively good performance on predicting whether the incident is violent or not, with testing accuracy at about 0.58. Aiming for better accuracy, we performed hyperparameter tuning to optimize the configuration settings, including the number of nodes, optimizer, learning rate, identifying the best combination that minimizes the loss function and improves the model's accuracy and generalization ability on unseen data. We didn't use k-fold cross validation because it cannot effectively improve the performance of the model while making the training process especially computationally expensive. Similarly, although feature expansion has the potential to uncover non-linear relationships and improve model performance, it also risks leading to overfitting, where the model becomes too tailored to the training data and performs poorly on unseen data. Furthermore, feature expansion can exponentially increase the dimensionality of the data, exacerbating issues with memory usage and computational efficiency. 
+The neural network we built has a relatively good performance on predicting whether the incident is violent or not, with testing accuracy at about 0.58. Aiming for better accuracy, we performed hyperparameter tuning to optimize the configuration settings, including the number of nodes, optimizer, learning rate, identifying the best combination that minimizes the loss function and improves the model's accuracy and generalization ability on unseen data. We didn't use k-fold cross validation because it cannot effectively improve the performance of the model while making the training process especially computationally expensive. Similarly, although feature expansion has the potential to uncover non-linear relationships and improve model performance, it also risks leading to overfitting, where the model becomes too tailored to the training data and performs poorly on unseen data. Furthermore, feature expansion can exponentially increase the dimensionality of the data, exacerbating issues with memory usage and computational efficiency.
 
 The final model we have has testing accuracy at about 0.6, indicating some improvements of performance resulted in hyperparameter tuning. Based on Figure 3.2.1 for the model loss, it is clear that we have a promising model that is learning effectively, evidenced by the consistent downward trend in training loss. The model displays a commendable ability to minimize error on the training set, indicating a good fit. Despite some fluctuations in validation loss, the general proximity of the training and validation losses suggest that the model has the potential for strong generalization with further tuning. This foundational training showcases a solid starting point for a robust model that, with further refinement, is poised to offer reliable predictions.
 
@@ -267,7 +258,6 @@ We plan to employ and experiment with several SVM (Support Vector Machine) model
 
 ### Model 3 - SVM Classifier Results / Figures
 
-
 | C     | Kernel Type | Features                                                         | F1 Score (macro avg) |
 | ----- | ----------- | ---------------------------------------------------------------- | -------------------- |
 | 1     | Poly        | Latitude, Longitude, one hot encoded temporal features           | 0.57                 |
@@ -280,9 +270,7 @@ We plan to employ and experiment with several SVM (Support Vector Machine) model
 | 0.1   | Rbf         | One hot encoded community, sin-cos encoding of temporal features | 0.59                 |
 | 1     | Rbf         | One hot encoded community, sin-cos encoding of temporal features | 0.60                 |
 
-
 This experiment showed that features regarding location seemed to picked up well by the svm mode as it provide meaningful information that makes it easier to distinguish between different classes. This implies that even just the rough location of community is key in determining the nature of a crime.
-
 
 ![](svc_best.png)
 _Figure 3.3.1. Confusion matrix on balanced testing set for the best SVC model with kernel rbf and C of 1.0._
@@ -323,6 +311,6 @@ All of us worked together for the most part to discuss topics and approaches thr
 | ---------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Zach Zhong | Team Leader, Project Manager, Coder  | Organized meetings, planned milestones, and assigned tasks to the team. Built the baseline model for logistic regression; Wrote and finetuned model 3; Experimented with feature engineering to improve the accuracy of our models. Brainstormed topics together.                                                                                                                                                         |
 | Fangyu Zhu | Coder, Writer                        | Milestone 2 for Incident Location Data Exploration; Milestone 3 model 1- Logistic Regression collaborated working with Zach and Steven; Updates on writeup/readme, final review of the submissions based on milestone requirements; Final Submission Sections: Introduction; Methods/Results of Data Exploration; final submissions of group project (markdown transfer, formatting, etc.). Brainstormed topics together. |
-| Jerry Gong | _Roles and contributions not listed_ |  Data cleaning/preprocessing; Data exploration of incidents versus datetime; Training neural networks and plotting lost graphs for milestone 4; Brainstormed topics together.                                                                                                                                                                                                                                                                                                                                                                                             |
-| Boyu Tian  | _Roles and contributions not listed_ | Brainstormed topics together.                                                                                                                                                                                                                                                                                                                                                                                             |
-| Steven Xie | _Roles and contributions not listed_ | Brainstormed topics together.                                                                                                                                                                                                                                                                                                                                                                                             |
+| Jerry Gong | _Roles and contributions not listed_ | Data cleaning/preprocessing; Data exploration of incidents versus datetime; Training neural networks and plotting lost graphs for milestone 4; Brainstormed topics together.                                                                                                                                                                                                                                              |
+| Boyu Tian  | Coder, Writer                                | Brainstormed topics together, data cleaning / pre-processing, EDA in nicident category, training neural networks and parameter tuning, writing reports for the model. Brainstormed topics together.                                                                                                                                                                                                                       |
+| Steven Xie | Coder                                | Brainstormed topics together.                                                                                                                                                                                                                                                                                                                                                                                             |
