@@ -2,6 +2,10 @@
 
 ## Introduction
 
+Law enforcement agencies and emergency responders are often tasked with assessing the potential severity and violence level of reported incidents. Having an accurate assessment of whether an incident is likely to involve violence can help guide the appropriate response, allocation of resources, and safety precautions for personnel responding to the scene. However, making this determination based solely on limited initial report details can be challenging and prone to human bias or error.
+
+Our final project on San Francisco Incident Prediction aims to predict the nature of crime incidents (violent or not) based on time and location in San Francisco. It showcases our deep interests and understandings of the complexities involved in crime prediction within a city and the potential benefits of addressing this challenge.
+
 The San Francisco Incident Prediction project represents a pivotal application of data science to enhance urban safety and improve policing strategies. By predicting the nature of crime incidents using temporal and spatial data, this initiative stands at the forefront of a proactive approach to public safety, with the aim of being both innovative and impactful, that also explains why we chose this as our final project topic.
 
 ### Project Significance
@@ -132,8 +136,15 @@ The neural network we built has a relatively good performance on predicting whet
 
 ### Model 3 - SVM Classifier
 
-- Describe the third model, its hypothesis, and algorithm
-- Mention the training process
+Our hypothesis is that the SVM classifiers would achieve an equal or better results after fintuning.
+
+
+Similar to the neural network, running SVM with over 1000 columns takes way too long to converge with the increased dimensionality of the intersection features, which is specific to a particular street where the incident occurs. Due to limiation of our machine, we decided to try a different approach of feature extraction after finetuning to find the best hyperparameters.
+
+The model is trained once on the balanced dataset with it hyperamerts (C =0.1, 1, 10, 100) as well as kernel (lienar, sgf, poly with various degrees) with the same features extracted previously. Since the training metrics and testing metrics are consistent, it indicates that  the model is simply underfitting, and we wouldn't be any breakthrough in the accuracy without more data/features.
+
+After additional feature extraction with community and the improvements of encoding temporal features, the model is able to perform slightly better. We then fintuned the regularization constant with sgf kernel to get our best model for this approach.
+
 
 ## Results
 
@@ -150,9 +161,9 @@ _Figure 3.1.2: On a balanced dataset, we are able to acheive with F1 score of 0.
 We then experimented with more feature extraction. We added additional features into our dataset by one hot encoding the intersection (so our model knows what community the crime is happening to), and this raised the accuracy to 62%. Adding temporal features such as isWeekend, timeOfDay (morning, afternoon, evening) did not help improve the results.
 
 ![](logistic_reg_model_balanced_with_intersection_and_temporal_features_confusion_matrix.png)
-_Figure 3.1.3: Adding one-hot-encoded intersection features imporved F1 to 0.63._
+_Figure 3.1.3: Adding one-hot-encoded intersection features imporved F1 to 0.66._
 
-In conclusion, with some feature engineering, we are able to achieve a F1 score of 0.63 with our simple logistic regression model. Through this experiment, we found out that the broad location of crime (intersection) seems to be an important contributing factor to whether a crime is violent or not as one hot encoding it increased our performance metrics (F1 score) marginally.
+In conclusion, with some feature engineering, we are able to achieve a F1 score of 0.66 with our simple logistic regression model. Through this experiment, we found out that the broad location of crime (intersection) seems to be an important contributing factor to whether a crime is violent or not as one hot encoding it increased our performance metrics (F1 score) marginally.
 
 Logistic regression assumes a linear relationship between the features and the log-odds of the target variable. If the relationship is non-linear, logistic regression may not perform well. For the next two models, we could incorporate non-linear transformations of the features or use more complex models like decision trees or neural networks. Crime patterns can vary significantly over time and across different locations. If the model doesn't account for these temporal and spatial dynamics adequately, its predictive performance may suffer. In addition, we can consider incorporating time and location-specific features or using techniques like spatial or temporal clustering.
 
@@ -207,7 +218,7 @@ At this point, we recognized the need for additional feature engineering to impr
 
 With these improvements, we achieved a slightly higher F1 score of around 0.63 on both the feedforward neural network and the SVM classifier before any further fine-tuning.
 
-An F1 score of 0.63 seems reasonable, given the complexity of the problem we are trying to solve. While there may not be a strong correlation between the nature of the crime and the temporal features (as adding features like the weekday did not significantly improve the metrics), the location appears to be a more informative factor. For example, areas with lower income levels and higher rates of homelessness, such as the Tenderloin District of San Francisco, are historically known for higher crime rates and a higher likelihood of violent crimes occurring.
+The highest F1 score we were able to achieve of 0.66 seems reasonable, given the complexity of the problem we are trying to solve. While there may not be a strong correlation between the nature of the crime and the temporal features (as adding features like the weekday did not significantly improve the metrics), the location appears to be a more informative factor. For example, areas with lower income levels and higher rates of homelessness, such as the Tenderloin District of San Francisco, are historically known for higher crime rates and a higher likelihood of violent crimes occurring.
 
 Despite these improvements, there are still some shortcomings and limitations to our approach. First, while the community attribute captures the general location, it may not fully represent the nuances of the precise street-level location, which could contain additional valuable information. Second, our feature engineering efforts were limited to a few specific changes, and there may be other potential feature transformations or external data sources that could further enhance the models' predictive power.
 
