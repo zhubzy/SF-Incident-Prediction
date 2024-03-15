@@ -125,6 +125,59 @@ We first finished pre-processing by extracting the datetime in string to numeric
 
 We then begin to build and experiment with a simple logistic regression model.
 
+``` python
+def LogisticRegressionTest(X_train, Y_train, X_test, Y_test, model_name):
+    # Initialize the Logistic Regression model
+    log_reg = LogisticRegression(max_iter=1000)  # Adjust max_iter if needed
+    # Fit the model to the training data
+    log_reg.fit(X_train, Y_train)
+
+    # Predict on both the training and test data
+    y_pred_train = log_reg.predict(X_train)
+    y_pred_test = log_reg.predict(X_test)
+
+    # Calculate metrics for both training and test sets
+    accuracy_train = accuracy_score(Y_train, y_pred_train)
+    precision_train = precision_score(Y_train, y_pred_train, average='binary')
+    recall_train = recall_score(Y_train, y_pred_train, average='binary')
+    f1_train = f1_score(Y_train, y_pred_train, average='binary')
+
+    accuracy_test = accuracy_score(Y_test, y_pred_test)
+    precision_test = precision_score(Y_test, y_pred_test, average='binary')
+    recall_test = recall_score(Y_test, y_pred_test, average='binary')
+    f1_test = f1_score(Y_test, y_pred_test, average='binary')
+    print(f'Training Metrics for {model_name}:')
+    print(f'Accuracy: {accuracy_train:.2f}')
+    print(f'Precision: {precision_train:.2f}')
+    print(f'Recall: {recall_train:.2f}')
+    print(f'F1 Score: {f1_train:.2f}\n')
+
+    # Print test metrics
+    print(f'Test Metrics for {model_name}:')
+    print(f'Accuracy: {accuracy_test:.2f}')
+    print(f'Precision: {precision_test:.2f}')
+    print(f'Recall: {recall_test:.2f}')
+    print(f'F1 Score: {f1_test:.2f}')
+
+    # Generate and plot confusion matrix for test data
+    cm = confusion_matrix(Y_test, y_pred_test)
+    plt.figure(figsize=(10, 7))
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
+    plt.xlabel('Predicted')
+    plt.ylabel('True')
+    title = f'Confusion Matrix for {model_name}'
+    plt.title(title)
+
+    # Save the confusion matrix graph as PNG
+    filename = f'{model_name}_confusion_matrix.png'
+    plt.savefig(filename)
+    plt.show()
+    print(f'Confusion matrix graph saved as: {filename}')
+    plt.close()
+```
+The model is trained with max iteration of 1000 with the training loss and testing loss evaluated and confusion matrix plotted for evaluation.
+
+
 ### Model 2 - Neural Network
 
 - Describe the second model, its hypothesis, and algorithm
@@ -143,7 +196,36 @@ Similar to the neural network, running SVM with over 1000 columns takes way too 
 
 The model is trained once on the balanced dataset with it hyperamerts (C =0.1, 1, 10, 100) as well as kernel (lienar, sgf, poly with various degrees) with the same features extracted previously. Since the training metrics and testing metrics are consistent, it indicates that  the model is simply underfitting, and we wouldn't be any breakthrough in the accuracy without more data/features.
 
-After additional feature extraction with community and the improvements of encoding temporal features, the model is able to perform slightly better. We then fintuned the regularization constant with sgf kernel to get our best model for this approach.
+``` python
+def train_svc_tuned(x_train, y_train, x_test, y_test):
+    parameter_grid = {
+        'kernel': ['poly', 'linear','rbf'],  
+        'C': [0.1, 1, 10],  
+        'degree': [2, 3, 4], 
+        'gamma': ['scale', 'auto'],  
+        'coef0': [0.0, 0.5, 1.0] 
+    }
+    
+    svm = SVC()
+    grid_search = GridSearchCV(svm, parameter_grid, scoring='f1', cv=5)
+    grid_search.fit(x_train, y_train)
+    
+    print("Best parameters found: ", grid_search.best_params_)
+    best_model = grid_search.best_estimator_
+    
+    y_hat = best_model.predict(x_test)
+    f1_test = f1_score(y_test, y_hat, average='binary')
+    print(f'F1 score is {f1_test}')
+    print(classification_report(y_test, y_hat))
+    
+    cm = confusion_matrix(y_test, y_hat)
+    plt.figure(figsize=(10, 7))
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
+    
+    return best_model
+```
+
+After additional feature extraction with community and the improvements of encoding temporal features, the model is able to perform slightly better. We then fintuned the regularization constant with rbf kernel to get our best model for this approach.
 
 
 ## Results
