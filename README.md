@@ -180,6 +180,32 @@ The model is trained with max iteration of 1000 with the training loss and testi
 
 For the second model, we chose to model the San Francisco crime incidents via deep neural networks. We opted for the pre-processed dataset named df_balanced, characterized by its equal distribution of positive and negative outcomes for the 'violent' attribute we aim to predict. Initially, we considered utilizing a one-hot encoded version of this dataset, a technique previously noted for enhancing model efficacy in logistic regression applications. However, this approach was ultimately discarded due to the substantial increase in dataset dimensionality it would cause, which our computational resources found challenging to manage. Attempts to process the data across various servers consistently resulted in "Kernel Dead" errors, signaling the impracticality of this method given our infrastructure. Despite not employing the potentially optimal data structure, we are confident in our model's ability to achieve respectable performance, demonstrating both strong generalization and robust explanatory power. For the implementation of our model, we initialized two neural networks with the same amount of layers and nodes per layer, but with different activation functions. One used tanh, while the other used relu. Then, fixing the number of layers, we used parameter tuning to find the optimal number of nodes per layer and activation functions over a selected subset. Finally, we used the result of parameter tuning to construct a neural network that’s expected to have a better performance than our first two neural networks.
 
+```python
+def build_model(hp):
+    model = tf.keras.Sequential([
+        tf.keras.layers.Dense(hp.Int('nodes', min_value=1, max_value=128, step=16), activation=hp.Choice('activation', values=['relu', 'tanh', 'sigmoid', 'LeakyReLU']), input_shape=(X_train.shape[1],)),
+        tf.keras.layers.Dense(hp.Int('nodes', min_value=1, max_value=128, step=16), activation=hp.Choice('activation', values=['relu', 'tanh', 'sigmoid', 'LeakyReLU'])),
+        tf.keras.layers.Dense(hp.Int('nodes', min_value=1, max_value=128, step=16), activation=hp.Choice('activation', values=['relu', 'tanh', 'sigmoid', 'LeakyReLU'])),
+        tf.keras.layers.Dense(hp.Int('nodes', min_value=1, max_value=128, step=16), activation=hp.Choice('activation', values=['relu', 'tanh', 'sigmoid', 'LeakyReLU'])),
+        tf.keras.layers.Dense(1, activation=hp.Choice('activation', values=['relu', 'tanh', 'sigmoid', 'LeakyReLU']))
+    ])
+
+    model.compile(optimizer = 'rmsprop', loss = 'binary_crossentropy', metrics=['accuracy'])
+    return model
+
+
+tuner = kt.RandomSearch(
+    hypermodel=build_model,
+    objective='accuracy',
+    max_trials=15,
+    executions_per_trial=1,
+    overwrite=True,
+    directory='tuner',
+    project_name='tuner_result'
+)
+```
+Using the result from this tuner, our neural network is able to perform slightly better.
+
 ### Model 3 - SVM Classifier
 
 Our hypothesis is that the SVM classifiers would achieve an equal or better results after fintuning.
@@ -311,6 +337,6 @@ All of us worked together for the most part to discuss topics and approaches thr
 | ---------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Zach Zhong | Team Leader, Project Manager, Coder  | Organized meetings, planned milestones, and assigned tasks to the team. Built the baseline model for logistic regression; Wrote and finetuned model 3; Experimented with feature engineering to improve the accuracy of our models. Brainstormed topics together.                                                                                                                                                         |
 | Fangyu Zhu | Coder, Writer                        | Milestone 2 for Incident Location Data Exploration; Milestone 3 model 1- Logistic Regression collaborated working with Zach and Steven; Updates on writeup/readme, final review of the submissions based on milestone requirements; Final Submission Sections: Introduction; Methods/Results of Data Exploration; final submissions of group project (markdown transfer, formatting, etc.). Brainstormed topics together. |
-| Jerry Gong | _Roles and contributions not listed_ | Data cleaning/preprocessing; Data exploration of incidents versus datetime; Training neural networks and plotting lost graphs for milestone 4; Brainstormed topics together.                                                                                                                                                                                                                                              |
+| Jerry Gong | Coder | Data cleaning/preprocessing; Data exploration of incidents versus datetime; Training neural networks and plotting lost graphs for milestone 4; Parameter tuning for milestone 4; Brainstormed topics together.                                                                                                                                                                                                                                              |
 | Boyu Tian  | Coder, Writer                                | Brainstormed topics together, data cleaning / pre-processing, EDA in nicident category, training neural networks and parameter tuning, writing reports for the model. Brainstormed topics together.                                                                                                                                                                                                                       |
 | Steven Xie | Coder                                | Brainstormed topics together.                                                                                                                                                                                                                                                                                                                                                                                             |
