@@ -62,32 +62,29 @@ _Figure 2.1.3: This is a Pie chart showing the proportions of all the incident c
 
 #### Data Preprocessing for "San Francisco Incident Reports" Analysis
 
-This README highlights the steps for preprocessing the "San Francisco Incident Reports (2018-present)" dataset for classifying incidents into "violent" and "non-violent" categories based on location and time information. The document will guide through data cleaning and transformation to prepare the dataset for analysis using feedforward neural networks.
+This section highlights the steps for preprocessing the "San Francisco Incident Reports (2018-present)" dataset for classifying incidents into "violent" and "non-violent" categories based on location and time information. The section will guide through data cleaning and transformation to prepare the dataset for analysis using different machine learning models.
 
 #### Data Cleaning
 
-##### 1. Handle Missing Values
+##### 1. Keep uselful coloumns
 
-- **Numerical columns**: Identify and fill missing values in columns like `longitude` and `latitude`. we will use the mean or median of the column for filling in the missing values.
-- **Categorical columns**: For columns with categorical data such as `Intersection`, we will fill missing entries with the most frequent value or a placeholder such as 'Unknown'.
+- We first create a dataframe that keeps all the relevant columns like `Incident Datetime` or `Incident Category` and remove all the rows with missing values and store everything in a new dataframe named `df_cleaned`.
 
-##### 2. Remove Outliers
+##### 2. Categorize
 
-- Use statistical methods to identify and remove outliers from numerical columns like `longitude` and `latitude`. We will use the Interquartile Range (IQR) method for this purpose.
+- We create a new column named `violent` that categorizes the incidents into either `true` or `false`. For example, indicents like `Assault` or `Rape` will have the value `true` and crimes like `Suicide` will have the value `false`. The `violent` column is the dependent variable that we will predict using our models.
+
+##### 3. Handle Missing Values
+
+- For all the columns that we keep, we remove the rows where data is missing. This is safe to do because there are only a few rows with missing data.
 
 #### Data Transformation
 
-##### 1. Normalization
-
-- We will normalize numerical features to ensure they're on the same scale. This is crucial for features like `longitude` and `latitude`. We will use the z-score normalization to achieve this.
-
-##### 2. Extract Target Variable
-
-- We will manually classify incidents into "violent" and "non-violent" categories using the `Incident Category` column. For example, we may classify "Larceny Theft" as a "non-violent" act and "Assault" as a "violent" act in the column.
-
-##### 3. Categorical Feature Encoding
-
-- We can use one-hot encoding technique for converting categorical data into a binary vector, such as converting "non-violent" to `0` and "violent" to `1`.
+##### 1. Numerical Feature Encoding, Standardization, and Extraction
+- We encode `Incident time` into cos/sin encoding to preserve cyclinality. We also converted `Incident Datetime` to datetime format using `pd.to_datetime` for extracting datetime components like hours and months.
+- We standardize `Latitude` and `Latitude` using the z-score or the `StandardScaler` method from sklearn.
+- We extract `Hour` and `Month` from the `Incident Datetime` column to indicate what hour and month the incident happened.
+- We also apply one-hot encoding to the `Hour`, `DayOfWeek` and `Month` columns.
 
 Below is a encoding technique we use which gave decent results in models like neural network and SVC classifier. We use sin-cos encoding into to preserve the cynical nature of the hours and minutes features.
 
@@ -107,7 +104,13 @@ def encoding_imporved(df_in):
 
     return df_to_encode.drop(columns=columns_to_discard)
 ```
+##### 2. Categorical Feature Encoding
 
+- For the `Intersection` column, we split the street name by the `\` character and retains only the first segment of the split result.
+- We also one-hot encode the `Intersection` column and use the encoded columns to train our first model.
+```python
+    df_encoded = pd.get_dummies(balanced_df, columns=['Intersection'], prefix='Community')
+```
 #### Splitting
 
 ##### 1. Split the data
@@ -339,4 +342,4 @@ All of us worked together for the most part to discuss topics and approaches thr
 | Fangyu Zhu | Coder, Writer                        | Milestone 2 for Incident Location Data Exploration; Milestone 3 model 1- Logistic Regression collaborated working with Zach and Steven; Updates on writeup/readme, final review of the submissions based on milestone requirements; Final Submission Sections: Introduction; Methods/Results of Data Exploration; final submissions of group project (markdown transfer, formatting, etc.). Brainstormed topics together. |
 | Jerry Gong | Coder | Data cleaning/preprocessing; Data exploration of incidents versus datetime; Training neural networks and plotting lost graphs for milestone 4; Parameter tuning for milestone 4; Brainstormed topics together.                                                                                                                                                                                                                                              |
 | Boyu Tian  | Coder, Writer                                | Brainstormed topics together, data cleaning / pre-processing, EDA in nicident category, training neural networks and parameter tuning, writing reports for the model. Brainstormed topics together.                                                                                                                                                                                                                       |
-| Steven Xie | Coder                                | Brainstormed topics together.                                                                                                                                                                                                                                                                                                                                                                                             |
+| Steven Xie | Coder, Writer                                | Brainstormed topics together; One-hot encoding features to be used for model 1; Adding temporal features and tune parameters for model 1; Updates on readme                                                                                                                                                                                                                                                                                                                                                                                             |
