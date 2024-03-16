@@ -4,9 +4,7 @@
 
 Law enforcement agencies and emergency responders are often tasked with assessing the potential severity and violence level of reported incidents. Having an accurate assessment of whether an incident is likely to involve violence can help guide the appropriate response, allocation of resources, and safety precautions for personnel responding to the scene. However, making this determination based solely on limited initial report details can be challenging and prone to human bias or error.
 
-Our final project on San Francisco Incident Prediction aims to predict the nature of crime incidents (violent or not) based on time and location in San Francisco. It showcases our deep interests and understanding of the complexities involved in crime prediction within a city and the potential benefits of addressing this challenge.
-
-The San Francisco Incident Prediction project represents a pivotal application of data science to enhance urban safety and improve policing strategies. By predicting the nature of crime incidents using temporal and spatial data, this initiative stands at the forefront of a proactive approach to public safety, with the aim of being both innovative and impactful, that also explains why we chose this as our final project topic.
+Our final project on San Francisco Incident Prediction aims to predict the nature of crime incidents (violent or not) based on time and location in San Francisco. It showcases our deep interests and understanding of the complexities involved in crime prediction within a city and the potential benefits of addressing this challenge. By predicting the nature of crime incidents using temporal and spatial data, we can help law enforcement agencies address and prepare for the appropriate responses and also spot meaningful patterns for the occurrence of crime.
 
 ### Project Significance
 
@@ -86,7 +84,7 @@ This section highlights the steps for preprocessing the "San Francisco Incident 
 - We extract `Hour` and `Month` from the `Incident Datetime` column to indicate what hour and month the incident happened.
 - We also apply one-hot encoding to the `Hour`, `DayOfWeek` and `Month` columns.
 
-Below is a encoding technique we use which gave decent results in models like neural network and SVC classifier. We use sin-cos encoding into to preserve the cynical nature of the hours and minutes features.
+Below is an encoding technique we use which gave decent results in models like neural networks and SVC classifiers. We use sin-cos encoding to preserve the cynical nature of the hours and minutes features.
 
 ```python
 def encoding_imporved(df_in):
@@ -211,11 +209,11 @@ Using the result from this tuner, our neural network is able to perform slightly
 
 ### Model 3 - SVM Classifier
 
-Our hypothesis is that the SVM classifiers would achieve an equal or better results after fintuning.
+Our hypothesis is that the SVM classifiers would achieve equal or better results after finetuning.
 
 Similar to the neural network, running SVM with over 1000 columns takes way too long to converge with the increased dimensionality of the intersection features, which is specific to a particular street where the incident occurs. Due to limiation of our machine, we decided to try a different approach of feature extraction after finetuning to find the best hyperparameters.
 
-The model is trained once on the balanced dataset with it hyperamerts (C =0.1, 1, 10, 100) as well as kernel (lienar, sgf, poly with various degrees) with the same features extracted previously. Since the training metrics and testing metrics are consistent, it indicates that the model is simply underfitting, and we wouldn't be any breakthrough in the accuracy without more data/features.
+The model is trained once on the balanced dataset with various regularization constants (C =0.1, 1, 10, 100) as well as the kernel (lienar, sgf, poly with various degrees) with the same features extracted previously. Since the training metrics and testing metrics are consistent, it indicates that the model is simply underfitting, and we wouldn't be any breakthrough in the accuracy without more data/features.
 
 ```python
 def train_svc_tuned(x_train, y_train, x_test, y_test):
@@ -246,7 +244,7 @@ def train_svc_tuned(x_train, y_train, x_test, y_test):
     return best_model
 ```
 
-After additional feature extraction with community and the improvements of encoding temporal features, the model is able to perform slightly better. We then fintuned the regularization constant with rbf kernel to get our best model for this approach.
+After additional feature extraction with the community and the improvements of encoding temporal features, the model is able to perform slightly better. We then finetuned the regularization constant with rbf kernel to get our best model for this approach.
 
 ## Results
 
@@ -275,7 +273,7 @@ For the next two models, we want to try SVM classifiers and neural networks, as 
 
 The neural network we built has a relatively good performance on predicting whether the incident is violent or not, with testing accuracy at about 0.58. Aiming for better accuracy, we performed hyperparameter tuning to optimize the configuration settings, including the number of nodes, optimizer, learning rate, identifying the best combination that minimizes the loss function and improves the model's accuracy and generalization ability on unseen data. We didn't use k-fold cross validation because it cannot effectively improve the performance of the model while making the training process especially computationally expensive. Similarly, although feature expansion has the potential to uncover non-linear relationships and improve model performance, it also risks leading to overfitting, where the model becomes too tailored to the training data and performs poorly on unseen data. Furthermore, feature expansion can exponentially increase the dimensionality of the data, exacerbating issues with memory usage and computational efficiency.
 
-The final model we have has testing accuracy at about 0.6, indicating some improvements of performance resulted in hyperparameter tuning. Based on Figure 3.2.1 for the model loss, it is clear that we have a promising model that is learning effectively, evidenced by the consistent downward trend in training loss. The model displays a commendable ability to minimize error on the training set, indicating a good fit. Despite some fluctuations in validation loss, the general proximity of the training and validation losses suggest that the model has the potential for strong generalization with further tuning. This foundational training showcases a solid starting point for a robust model that, with further refinement, is poised to offer reliable predictions.
+The final model we have has testing accuracy at about 0.6, indicating some improvements of performance resulted in hyper parameter tuning. Based on Figure 3.2.1 for the model loss, it is clear that we have a promising model that is learning effectively, evidenced by the consistent downward trend in training loss. The model displays a commendable ability to minimize error on the training set, indicating a good fit. Despite some fluctuations in validation loss, the general proximity of the training and validation losses suggest that the model has the potential for strong generalization with further tuning. This foundational training showcases a solid starting point for a robust model that, with further refinement, is poised to offer reliable predictions.
 
 ![](neural_network_model_loss.png)
 
@@ -299,14 +297,14 @@ We plan to employ and experiment with several SVM (Support Vector Machine) model
 | 0.1   | Rbf         | One hot encoded community, sin-cos encoding of temporal features | 0.59                 |
 | 1     | Rbf         | One hot encoded community, sin-cos encoding of temporal features | 0.60                 |
 
-This experiment showed that features regarding location seemed to picked up well by the svm mode as it provide meaningful information that makes it easier to distinguish between different classes. This implies that even just the rough location of community is key in determining the nature of a crime.
+This experiment showed that features regarding location seemed to be picked up well by the svm mode as it provides meaningful information that makes it easier to distinguish between different classes. This implies that even just the rough location of the community is key in determining the nature of a crime.
 
 ![](svc_best.png)
 _Figure 3.3.1. Confusion matrix on balanced testing set for the best SVC model with kernel rbf and C of 1.0._
 
 ## Discussion
 
-We began our modeling approach with the simplest binary classification model - logistic regression. Our initial data exploration revealed that the dataset was highly imbalanced, with significantly more non-violent cases than violent ones. This imbalance can pose challenges for training an accurate model, as most algorithms tend to be biased towards the majority class. To account for this, we decided to use the F1 score as our primary evaluation metric, since we really care can about detection of violent crimes, as it provides a balanced measure of precision and recall, similar to how email spam detectors handle the class imbalance problem.
+We began our modeling approach with the simplest binary classification model - logistic regression. Our initial data exploration revealed that the dataset was highly imbalanced, with significantly more non-violent cases than violent ones. This imbalance can pose challenges for training an accurate model, as most algorithms tend to be biased towards the majority class. To account for this, we decided to use the F1 score as our primary evaluation metric, since we really care can about the detection of violent crimes, as it provides a balanced measure of precision and recall, similar to how email spam detectors handle the class imbalance problem.
 
 Training and testing the logistic regression model on the balanced dataset yielded a decent F1 score of around 0.66. While this result was promising, we hypothesized that introducing non-linearity and capturing more complex feature interactions could further improve the model's performance.
 
@@ -324,22 +322,22 @@ Despite these improvements, there are still some shortcomings and limitations to
 
 ## Conclusion
 
-One of the biggest obstacles we face is the nature of our dataset, with ~90% being non-violent crimes, and only 10% violent crimes, any model we train on the dataset with original would achieve 90% accuracy with 0 precision and recall. Oversampling the positive data to create a balanced dataset helped us overcome that obstacle, but it also made it harder to train a model (since we would be dealing with different porportion of tests in our evaluation compared to testing).
+One of the biggest obstacles we face is the nature of our dataset, with ~90% being non-violent crimes, and only 10% violent crimes, any model we train on the dataset with original would achieve 90% accuracy with 0 precision and recall. Oversampling the positive data to create a balanced dataset helped us overcome that obstacle, but it also made it harder to train a model (since we would be dealing with different proportions of positive to negative samples compared to testing).
 
-One thing that we can still discover is the usage of temporal features. Through our experimentations, the models we employ saw noticeable improvements with the inclusion of encoding location data, yet the temporal features did not have too much of an impact. A plausible idea that we really wished we could have time to try is to utilize temporal features fully is using it with CNN to do a time series analysis of the data.
+One thing that we can still discover is the usage of temporal features. Through our experimentations, the models we employed saw noticeable improvements with the inclusion of encoding location data, yet the temporal features did not have too much of an impact. A plausible idea that we really wished we could have time to try is to utilize temporal features fully is using it with CNN to do a time series analysis of the data.
 
 Our best model ended up being the logistic regression model achieving F1 score of about 0.66, which also happened to be the simplest and fastest to train due to how memory efficient it is. This goes to show that neural networks are not a one-fit-all solution for everything.
 
-Regardless, an F1 score of 0.66 seems decent and confirms our initial hypothesis after data exploration phase that we can at least reasonably tell the nature of crime given. In order to further improve our model, more advanced feature enginerring techniques is perhaps needed and domain knowledge about San Francisco city in general is perhaps needed to further improve the reliability of our model if it were to be implemented in a real world setting.
+Regardless, an F1 score of 0.66 seems decent and confirms our initial hypothesis after data exploration phase that we can at least reasonably tell the nature of the crime given. In order to further improve our model, more advanced feature engineering techniques is perhaps needed and domain knowledge about San Francisco city in general is perhaps needed to further improve the reliability of our model if it were to be implemented in a real-world setting.
 
 # Collaboration
 
-All of us worked together for the most part to discuss topics and approaches through our weekly meetings.
+All of us worked together to discuss approaches to take during our weekly meetings.
 
 | NAME       | TEAM ROLE                            | WHAT HAVE WE DONE?                                                                                                                                                                                                                                                                                                                                                                                                        |
 | ---------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Zach Zhong | Team Leader, Project Manager, Coder  | Organized meetings, planned milestones, and assigned tasks to the team. Built the baseline model for logistic regression; Wrote and finetuned model 3; Experimented with feature engineering to improve the accuracy of our models. Brainstormed topics together.                                                                                                                                                         |
 | Fangyu Zhu | Coder, Writer                        | Milestone 2 for Incident Location Data Exploration; Milestone 3 model 1- Logistic Regression collaborated working with Zach and Steven; Updates on writeup/readme, final review of the submissions based on milestone requirements; Final Submission Sections: Introduction; Methods/Results of Data Exploration; final submissions of group project (markdown transfer, formatting, etc.). Brainstormed topics together. |
 | Jerry Gong | Coder | Data cleaning/preprocessing; Data exploration of incidents versus datetime; Training neural networks and plotting lost graphs for milestone 4; Parameter tuning for milestone 4; Brainstormed topics together.                                                                                                                                                                                                                                              |
-| Boyu Tian  | Coder, Writer                                | Brainstormed topics together, data cleaning / pre-processing, EDA in nicident category, training neural networks and parameter tuning, writing reports for the model. Brainstormed topics together.                                                                                                                                                                                                                       |
+| Boyu Tian  | Coder, Writer                                | Brainstormed topics together, data cleaning / pre-processing, EDA in incident category, training neural networks and parameter tuning, writing reports for the model. Brainstormed topics together.                                                                                                                                                                                                                       |
 | Steven Xie | Coder, Writer                                | Brainstormed topics together; One-hot encoding features to be used for model 1; Adding temporal features and tune parameters for model 1; Updates on readme                                                                                                                                                                                                                                                                                                                                                                                             |
